@@ -4,6 +4,7 @@ import { ImageDataProps } from "../new-almanac/page";
 
 
 interface PostProps{
+    _id: string
     slug: string,
     postTitle: string;
     postImage: {
@@ -18,21 +19,29 @@ interface PostProps{
 export async function generateStaticParams() {
     const posts = await fetch('https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post', { next: { revalidate: 10 } })
     .then((res) => res.json())
-    return posts.map((post: PostProps) => {
-    slug: post.slug
-    })
+    return posts.map((post: PostProps) => ({
+        slug: post.slug,
+        id: post._id
+    }))
 }
+export async function generateMetadata({ searchParams }: { searchParams: { id: string } }) {
+    const post = await getPost(searchParams.id)
+    return {
+        title: post.postTitle,
+        description: 'Some description'
+    }
+  }
 async function getPost(id: string) {
     const res = await fetch(`https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post_by_id?id=${id}`)
     return res.json()
 }
 
-export default async function PostOverview({ params,searchParams } : {params: {slug: string}, searchParams:{id: string}}) {
+export default async function PostOverview({ params,searchParams } : {params: {slug: string, id: string}, searchParams:{id: string}}) {
     const { slug } = params
     const post = await getPost(searchParams.id);
-    console.log('slug=>', slug)
-    console.log('params=>', params)
-    console.log('searchParams=>', searchParams)
+    // console.log('slug=>', slug)
+    // console.log('params=>', params)
+    // console.log('searchParams=>', searchParams)
     return (
         <section className="flex flex-col gap-3">
         {post ? (
