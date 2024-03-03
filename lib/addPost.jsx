@@ -13,7 +13,7 @@ export async function addPost(post) {
       }
   
         const res = await req.json();
-      console.log('res',res);
+      console.log('res', res);
     } catch (error) {
       console.error('Error adding post:', error.message);
     }

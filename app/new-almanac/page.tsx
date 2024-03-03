@@ -6,6 +6,9 @@ import { CldUploadWidget } from 'next-cloudinary';
 import { postImageAlt } from "@/utils";
 import { deleteImageFromCloudinary } from '@/lib/deleteImage';
 import { addPost } from '@/lib/addPost';
+import { redirect, useRouter } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache";
+
 
 export interface ImageDataProps {
   url: string;
@@ -21,6 +24,7 @@ interface PostDataProps {
 }
 
 export default function NewPostPage() {
+  const router = useRouter()
   const [postData, setPostData] = useState<PostDataProps>({
     postTitle: '',
     postImage: {
@@ -147,6 +151,10 @@ export default function NewPostPage() {
       content: restContent,
     }));
   };
+  async function completePost(post : any) {
+    await addPost(post)
+    router.push('/')
+  }
   React.useEffect(() => {
   console.log(postData.content)
   },[postData.content])
@@ -202,7 +210,7 @@ export default function NewPostPage() {
           )}
         >
           <Card className="bg-[#E393F8] py-4 flex justify-center items-center">
-            <Button onClick={()=>addPost(postData)}>Complete Post</Button>
+            <Button onClick={()=>completePost(postData)}>Complete Post</Button>
           </Card>
           <div className="max-h-auto flex flex-col gap-2">
             <Input
@@ -254,7 +262,7 @@ export default function NewPostPage() {
         }}
       >
         {({ open }) => (
-          <Button isDisabled={postData.postImage.url !== ''} onClick={() => open()}>
+          <Button  onClick={() => open()}>
             Загрузить Изображение Поста
           </Button>
         )}
