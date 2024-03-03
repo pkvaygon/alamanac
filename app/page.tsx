@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ImageDataProps } from "./new-almanac/page";
 
-export async function getAllPosts() {
+ async function getAllPosts() {
   const res = await fetch('https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post');
   return res.json();
 }
