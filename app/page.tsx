@@ -3,7 +3,9 @@ import { ImageDataProps } from "./new-almanac/page";
 import Link from "next/link";
 
  async function getAllPosts() {
-  const res = await fetch('https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post');
+   const res = await fetch('https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post', {
+   cache: 'no-store'
+   });
   return res.json();
 }
 
