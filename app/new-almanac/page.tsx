@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent } from "react";
 import { cn } from "@/cn";
-import { Image, Button, Input, ScrollShadow, Card } from "@nextui-org/react";
+import { Image, Button, Input, ScrollShadow, Card, Tooltip, Snippet } from "@nextui-org/react";
 import { CldUploadWidget } from 'next-cloudinary';
 import { postImageAlt } from "@/utils";
 import { deleteImageFromCloudinary } from '@/lib/deleteImage';
@@ -15,7 +15,7 @@ export interface ImageDataProps {
   public_id: string;
 }
 
-interface PostDataProps {
+ interface PostDataProps {
   postTitle: string;
   postImage: ImageDataProps;
   content: {
@@ -238,7 +238,21 @@ export default function NewPostPage() {
             </CldUploadWidget>
             <div className="flex flex-col h-auto gap-3">
               <Button onClick={handleAddText}>Добавить текст</Button>
-              <Button onClick={()=>handleAddImage()}>Добавить изображение</Button>
+              <Button onClick={() => handleAddImage()}>Добавить изображение</Button>
+              <Tooltip
+                delay={0}
+                closeDelay={100} 
+                content={
+                  <div className="flex flex-col gap-2">
+                    <p className="font-semibold">Пример использования</p>
+                    <Snippet className="w-full h-full select-none" variant="shadow" color="secondary">npm install axios</Snippet>
+                  </div>
+                        }
+              >
+      <Button>
+        Добавить сниппет
+      </Button>
+    </Tooltip>
               {Object.entries(postData.content).map(([key, value]) => (
   <div key={key}>
     {key.startsWith("text_") ? (

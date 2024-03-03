@@ -1,8 +1,5 @@
 import Image from "next/image";
-import { ImageDataProps } from "./new-almanac/page";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
-
 async function getAllPosts() {
   const res = await fetch('https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post', {
     cache: 'no-store'
@@ -14,33 +11,30 @@ export default async function Home() {
   const posts = await getAllPosts();
   console.log(posts[0]);
   return (
-    <div className="mt-[20px]">
+    <section className="сontainer">
       <Link className="bg-black text-white px-3 py-2" href="new-almanac">Создать пост</Link>
       <h2 className="select-none mt-5 underline text-gray">После создания поста нужно обновить страницу</h2>
-      <section className="flex flex-col gap-3">
-        {posts.length > 0 ? (
-          <>
-            <div className="relative w-full h-[400px]">
-              <Image fill priority src={posts[0].postImage.url} objectFit="contain" alt={posts[0].postTitle} />
-            </div>
-            <h1 className="text-4xl font-bold">{posts[0].postTitle}</h1>
-            {posts.map((post: any) => (
-              <div key={post._id}>
-                {/* Отображение значений блога */}
-                {Object.entries(post.content).map(([key, value]) => (
-                  <div key={key}>
-                    {key.startsWith("text_") ? (
-                      <p>{value as string}</p>
-                    ) : key.startsWith("image_") ? (
-                      <Image width={300} height={250} src={(value as ImageDataProps).url} alt={`Image ${key}`} />
-                    ) : null}
-                  </div>
-                ))}
+     
+      <div className="grid grid-cols-3 grid-flow-row mt-[50px]">
+        {posts.length > 0 && (
+          posts.map((post: any) => (
+            <Link href={`/${post.slug}?id=${post._id}`} key={post._id} className="aspect-square shadow-lg shadow-indigo-500/40 rounded-lg flex flex-col gap-2 ">
+              <div className="relative w-full h-[40%] rounded-lg">
+              <Image className="rounded-lg" fill priority objectFit="cover" src={post.postImage.url} alt={post.postTitle} />
               </div>
-            ))}
-          </>
-        ) : null}
-      </section>
-    </div>
+              <div className="flex flex-col gap-2">
+                <h2 className="font-bold ">{post.postTitle}</h2>
+                <h3 className="bg-[#006FEE] text-[#ffffff] pl-2">TypeScript</h3>
+                <p>Описание : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, dolorem quaerat, vero nesciunt sequi error adipisci at ut qui iusto vitae quasi. Eius, sequi eveniet.</p>
+              </div>
+        </Link>
+            ))
+        )
+        
+        }
+        
+      </div>
+  
+    </section>
   );
 }
