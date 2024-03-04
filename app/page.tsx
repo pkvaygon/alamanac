@@ -18,7 +18,7 @@ export default async function Home() {
       <div className="grid grid-cols-3 grid-flow-row mt-[50px]">
         {posts.length > 0 && (
           posts.map((post: any) => (
-            <Link href={`/${post.slug}?id=${post._id}`} key={post._id} className="aspect-square shadow-lg shadow-indigo-500/40 rounded-lg flex flex-col gap-2 ">
+            <Link href={`/${post._id}?slug=${post.slug}`} key={post._id} className="aspect-square shadow-lg shadow-indigo-500/40 rounded-lg flex flex-col gap-2 ">
               <div className="relative w-full h-[40%] rounded-lg">
               <Image className="rounded-lg" fill priority objectFit="cover" src={post.postImage.url} alt={post.postTitle} />
               </div>
