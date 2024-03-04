@@ -23,7 +23,7 @@ export async function generateMetadata({params, searchParams}: PageProps) {
     const { id } = params
     const post = await getPost(id)
     return {
-    title: post.postTitle
+    title: post.postTitle,
     }
 }
 async function getPost(id: string) {
@@ -35,9 +35,10 @@ export default async function PostOverview({ params, searchParams }: PageProps) 
     const post = await getPost(id)
 // console.log(post)
     return (
-           <section className="flex flex-col gap-3">
+           <section className="flex flex-col gap-3 w-[90%] mx-auto">
         {post ? (
           <>
+            
             <div className="relative w-full h-[400px]">
               <Image fill priority src={post.postImage.url} objectFit="contain" alt={post.postTitle} />
             </div>
@@ -45,11 +46,15 @@ export default async function PostOverview({ params, searchParams }: PageProps) 
             <div>
               {/* Отображение значений блога */}
               {Object.entries(post.content).map(([key, value]) => (
-                <div key={key}>
+                <div className="flex flex-col gap-3" key={key}>
                   {key.startsWith("text_") ? (
-                    <p>{value as string}</p>
+                    <div className="my-2 bg-gray-500 light:text-black text-[#ffffff] p-4">
+                      <p >{value as string}</p>
+                    </div>
                   ) : key.startsWith("image_") ? (
-                    <Image width={300} height={250} src={(value as ImageDataProps).url} alt={`Image ${key}`} />
+                      <div className="relative w-auto h-[400px] my-2">
+                        <Image fill objectFit="contain" src={(value as ImageDataProps).url} alt={`Image ${key}`} />
+                      </div>
                   ) : null}
                 </div>
               ))}

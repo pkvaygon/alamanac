@@ -15,10 +15,10 @@ export default async function Home() {
       <Link className="bg-black text-white px-3 py-2" href="new-almanac">Создать пост</Link>
       <h2 className="select-none mt-5 underline text-gray">После создания поста нужно обновить страницу</h2>
      
-      <div className="grid grid-cols-3 grid-flow-row mt-[50px]">
+      <div className="grid grid-cols-3 gap-3 grid-flow-row mt-[50px]">
         {posts.length > 0 && (
           posts.map((post: any) => (
-            <Link href={`/${post._id}?slug=${post.slug}`} key={post._id} className="aspect-square shadow-lg shadow-indigo-500/40 rounded-lg flex flex-col gap-2 ">
+            <Link href={`/${post._id}?slug=${post.slug}`} key={post._id} className="aspect-square shadow-xl shadow-indigo-500/40 rounded-lg flex flex-col gap-2 ">
               <div className="relative w-full h-[40%] rounded-lg">
               <Image className="rounded-lg" fill priority objectFit="cover" src={post.postImage.url} alt={post.postTitle} />
               </div>
