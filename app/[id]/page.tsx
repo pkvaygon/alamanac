@@ -19,6 +19,13 @@ export async function generateStaticParams() {
         id: post._id,
     }))
 }
+export async function generateMetadata({params, searchParams}: PageProps) {
+    const { id } = params
+    const post = await getPost(id)
+    return {
+    title: post.postTitle
+    }
+}
 async function getPost(id: string) {
     const res = await fetch(`https://us-central1.gcp.data.mongodb-api.com/app/almanac-nwvhl/endpoint/get_post_by_id?id=${id}`)
     return res.json()

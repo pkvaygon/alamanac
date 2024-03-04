@@ -9,7 +9,7 @@ async function getAllPosts() {
 
 export default async function Home() {
   const posts = await getAllPosts();
-  console.log(posts[0]);
+  // console.log(posts[0]);
   return (
     <section className="сontainer">
       <Link className="bg-black text-white px-3 py-2" href="new-almanac">Создать пост</Link>
